@@ -1,0 +1,36 @@
+{
+  "Parameters": {},
+  "Resources": {
+    "WebServer": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId": "ami-0dacb0c129b49f529",
+        "InstanceType": {
+          "Value": "t2.micro"
+        },
+        "KeyName": {
+          "Value": "awsdemokeypair.pem"
+        },
+        "SecurityGroups": [
+          {
+            "Value": "sg-0e21a24f50b549e05"
+          }
+        ],
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "",
+              [
+                "#!/bin/sh\n",
+                "yum install -y httpd\n",
+                "chkconfig httpd on\n",
+                "systemctl start httpd\n",
+                "echo '<html>Hello guys !<html/>' > /var/www/html/index.html"
+              ]
+            ]
+          }
+        }
+      }
+    }
+  }
+}
